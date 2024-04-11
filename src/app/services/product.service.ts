@@ -17,9 +17,21 @@ export class ProductService {
     if(currentCategoryId!==null){
       url = this.baseUrl+'/search/findByCategoryId?id='+currentCategoryId;
       console.log(">>>>>>url: "+url);
-      
     }else{
       url = this.baseUrl;
+    }
+    return this.httpClient.get<GetResponse>(url).pipe(
+      map(response=> response._embedded.products)
+    );
+  }
+
+  searchProducts(keyword:string|null): Observable<Product[]>{
+    let url='';
+    if(keyword == undefined){
+      url = this.baseUrl;
+    }else{
+      url = this.baseUrl+`/search/findByNameContaining?name=${keyword}`;
+      console.log(">>>>>>url: "+url);
     }
     return this.httpClient.get<GetResponse>(url).pipe(
       map(response=> response._embedded.products)
