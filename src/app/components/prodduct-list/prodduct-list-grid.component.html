@@ -4,7 +4,8 @@
             <div class="row">
                 <div class="col-md-3" *ngFor="let product of products">
                     <div class="product-box">
-                        <img src="{{product.imageUrl}}" alt="Not Found" class="img-responsive">
+                        <img src="/{{product.imageUrl}}  
+                        " alt="Not Found" class="img-responsive">
                         <h1>{{product.name}}</h1>
                         <div class="price">{{product.unitPrice | currency: 'USD'}}</div>
                         <a href="#" class="primary-btn">Add to cart</a>
