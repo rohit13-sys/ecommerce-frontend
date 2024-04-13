@@ -13,6 +13,7 @@ export class ProdductListComponent implements OnInit {
   products: Product[] = [];
   currentCategoryId: string | null = '';
   searchModule: boolean = false;
+randomNumber: number = Math.floor(Math.random() * 10) + 1;
   constructor(private productService: ProductService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -68,5 +69,10 @@ export class ProdductListComponent implements OnInit {
       )
 
     }
+  }
+
+  random()
+  {
+    return Math.random()
   }
 }

@@ -1,7 +1,8 @@
-<div class="main-content">
+<!-- <div class="main-content">
     <div class="section-content section-content-p30">
         <div class="container-fluid">
             <div class="row">
+
                 <div class="col-md-3" *ngFor="let product of products">
                     <div class="product-box">
                         <img src="/{{product.imageUrl}}  
@@ -11,7 +12,66 @@
                         <a href="#" class="primary-btn">Add to cart</a>
                     </div>
                 </div>
+
+                <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                    No Products Found.
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 col-sm-6" *ngFor="let product of products; let index = index">
+                    <div class="product-grid3">
+                        <div class="product-image3">
+                            <a href="#">
+                                <img class="pic-1" src="/{{product.imageUrl}}">
+                                <img class="pic-2" src="/{{product.imageUrl}}">
+                            </a>
+                            <ul class="social">
+                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
+                            </ul>
+                            <div *ngIf="random()<.2">
+                                <span class="product-new-label">New</span><span class="product-new-label">New</span>
+                            </div>
+
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">{{product.name}}</a></h3>
+                            <div class="price">
+                                {{product.unitPrice}}
+                                <span>${{product.unitPrice*5 | number:'1.0-2'}}</span>
+                            </div>
+                            <ul class="rating">
+                                <li class="fa fa-star"></li>
+                                <!-- <li class="fa fa-star" *ngIf="random()<.2"></li>
+                                <li class="fa fa-star" *ngIf="random()<.2"></li>
+                                <li class="fa fa-star" *ngIf="random()<.2"></li>
+                                <li class="fa fa-star disable" *ngIf="random()<.2"></li>
+                                <li class="fa fa-star disable" *ngIf="random()<.2"></li> -->
+
+                                <li class="fa fa-star"></li>
+                                <li class="fa fa-star"></li>
+                                <li class="fa fa-star disable"></li>
+                                <li class="fa fa-star disable"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                    No Products Found.
+                </div>
             </div>
         </div>
     </div>
 </div>
+<hr>

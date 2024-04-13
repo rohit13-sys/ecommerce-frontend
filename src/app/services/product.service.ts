@@ -14,7 +14,7 @@ export class ProductService {
 
   getProductList(currentCategoryId:string | null): Observable<Product[]>{
     let url:string = '';
-    if(currentCategoryId!==null){
+    if(currentCategoryId!==null && currentCategoryId.trim()!==''){
       url = this.baseUrl+'/search/findByCategoryId?id='+currentCategoryId;
       console.log(">>>>>>url: "+url);
     }else{
@@ -30,7 +30,7 @@ export class ProductService {
     if(keyword == undefined){
       url = this.baseUrl;
     }else{
-      url = this.baseUrl+`/search/findByNameContaining?name=${keyword}`;
+      url = this.baseUrl+`/search/findByNameContainingIgnoreCase?name=${keyword}`;
       console.log(">>>>>>url: "+url);
     }
     return this.httpClient.get<GetResponse>(url).pipe(
