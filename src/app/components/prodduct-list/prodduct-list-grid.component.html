@@ -37,7 +37,7 @@
                             <ul class="social">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
+                                <li><a routerLink="/products/{{product.id}}"><i class="fas fa-info-circle"></i></a></li>
                             </ul>
                             <div *ngIf="random()<.2">
                                 <span class="product-new-label">New</span><span class="product-new-label">New</span>
@@ -58,10 +58,10 @@
                                 <li class="fa fa-star disable" *ngIf="random()<.2"></li>
                                 <li class="fa fa-star disable" *ngIf="random()<.2"></li> -->
 
-                                <li class="fa fa-star"></li>
+                                <!-- <li class="fa fa-star"></li>
                                 <li class="fa fa-star"></li>
                                 <li class="fa fa-star disable"></li>
-                                <li class="fa fa-star disable"></li>
+                                <li class="fa fa-star disable"></li> -->
                             </ul>
                         </div>
                     </div>
