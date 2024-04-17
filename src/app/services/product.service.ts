@@ -12,6 +12,19 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
 
+  getProductListPagination(thePage: number, thePageSize: number,
+    currentCategoryId: string | null): Observable<GetResponse> {
+    let url: string = '';
+    if (currentCategoryId !== null && currentCategoryId.trim() !== '') {
+      url = `${this.baseUrl}/search/findByCategoryId?id=${currentCategoryId}`
+      +`&page=${thePage}&size=${thePageSize}`;
+      console.log(">>>>>>url: " + url);
+    } else {
+      url = `${this.baseUrl}?page=${thePage}&size=${thePageSize}`;
+    }
+    return this.httpClient.get<GetResponse>(url);
+  }
+
   getProductList(currentCategoryId: string | null): Observable<Product[]> {
     let url: string = '';
     if (currentCategoryId !== null && currentCategoryId.trim() !== '') {
@@ -57,5 +70,11 @@ export class ProductService {
 interface GetResponse {
   _embedded: {
     products: Product[];
+  },
+  page: {
+    size: number,
+    totalElements: number,
+    totalPages: number,
+    number: number
   }
 }

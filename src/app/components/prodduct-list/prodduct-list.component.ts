@@ -12,8 +12,15 @@ export class ProdductListComponent implements OnInit {
 
   products: Product[] = [];
   currentCategoryId: string | null = '';
+  previousCategoryId: string | null = '';
   searchModule: boolean = false;
-randomNumber: number = Math.floor(Math.random() * 10) + 1;
+
+  thePageNumber: number = 1;
+  thePageSize: number = 10;
+  theTotalElements: number = 0;
+
+  randomNumber: number = Math.floor(Math.random() * 10) + 1;
+
   constructor(private productService: ProductService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -50,11 +57,35 @@ randomNumber: number = Math.floor(Math.random() * 10) + 1;
     else {
       this.currentCategoryId = '';
     }
-    this.productService.getProductList(this.currentCategoryId).subscribe(
-      data => {
-        this.products = data;
-      }
-    )
+
+    //
+    //check if we have a different category than previous
+    //Note: Angular will reuse the component if that compinent is being viewed
+    //
+
+    //if we have a different categoryId than previous
+    // then set the pageNumber back to 1
+    if (this.previousCategoryId != this.currentCategoryId) {
+      this.thePageNumber = 1;
+    }
+
+    console.log(`currentCategoryId : ${this.currentCategoryId} , thePagenumber : ${this.thePageNumber}
+     , thePageSize : ${this.thePageSize} , previousCategoryId : ${this.previousCategoryId}`);
+
+    this.previousCategoryId = this.currentCategoryId
+    
+    this.productService.getProductListPagination(this.thePageNumber-1,
+      this.thePageSize,
+      this.currentCategoryId)
+      .subscribe(
+        data => {
+          this.products = data._embedded.products;
+          this.thePageNumber = data.page.number + 1;
+          this.thePageSize = data.page.size;
+          this.theTotalElements = data.page.totalElements;
+
+        }
+      )
   }
 
   handleFilteredList() {
@@ -71,8 +102,7 @@ randomNumber: number = Math.floor(Math.random() * 10) + 1;
     }
   }
 
-  random()
-  {
+  random() {
     return Math.random()
   }
 }
