@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Product } from '../common/product';
@@ -38,17 +38,16 @@ export class ProductService {
     );
   }
 
-  searchProducts(keyword: string | null): Observable<Product[]> {
+  searchProducts(thePage: number, thePageSize: number,keyword: string | null): Observable<GetResponse> {
     let url = '';
     if (keyword == undefined) {
-      url = this.baseUrl;
+      url = `${this.baseUrl}?page=${thePage}&size=${thePageSize}`;
     } else {
-      url = this.baseUrl + `/search/findByNameContainingIgnoreCase?name=${keyword}`;
+      url = this.baseUrl + `/search/findByNameContainingIgnoreCase?name=${keyword}`
+      +`&page=${thePage}&size=${thePageSize}`;
       console.log(">>>>>>url: " + url);
     }
-    return this.httpClient.get<GetResponse>(url).pipe(
-      map(response => response._embedded.products)
-    );
+    return this.httpClient.get<GetResponse>(url);
   }
 
   getProductDetails(productId: string | null): Observable<Product> {
@@ -64,6 +63,30 @@ export class ProductService {
         return response;
       })
     )
+  }
+
+
+  getProductsWithAllFilters(
+    thePage: number,
+    thePageSize: number,
+    keyword: string | null,
+    categoryId: string | null
+  ): Observable<GetResponse> {
+    let finalUrl: string;
+    let params = new HttpParams()
+      .set('page', thePage.toString())
+      .set('size', thePageSize.toString());
+  
+    if (keyword && keyword.trim() !== '') {
+      params = params.set('name', keyword.trim());
+      finalUrl = `${this.baseUrl}/search/findByNameContainingIgnoreCase`;
+    } else if (categoryId && categoryId.trim() !== '') {
+      params = params.set('id', categoryId.trim());
+      finalUrl = `${this.baseUrl}/search/findByCategoryId`;
+    } else {
+      finalUrl = this.baseUrl;
+    }
+    return this.httpClient.get<GetResponse>(finalUrl, { params });
   }
 }
 

@@ -20,6 +20,7 @@ export class ProdductListComponent implements OnInit {
   theTotalElements: number = 0;
 
   randomNumber: number = Math.floor(Math.random() * 10) + 1;
+  keyword: string | null = '';
 
   constructor(private productService: ProductService, private route: ActivatedRoute) { }
 
@@ -30,23 +31,18 @@ export class ProdductListComponent implements OnInit {
   }
 
   productsList() {
-    this.searchModule = this.route.snapshot.paramMap.has('name');
-
-    if (this.searchModule) {
-      this.handleFilteredList();
-    } else {
+    // this.searchModule = this.route.snapshot.paramMap.has('name');
       this.handleAllProductList();
-    }
   }
 
-  searchProducts() {
-    const keyword: string | null = this.route.snapshot.paramMap.get('keyword');
-    this.productService.searchProducts(keyword).subscribe(
-      data => {
-        this.products = data;
-      }
-    )
-  }
+  // searchProducts() {
+  //   const keyword: string | null = this.route.snapshot.paramMap.get('keyword');
+  //   this.productService.searchProducts(keyword).subscribe(
+  //     data => {
+  //       this.products = data;
+  //     }
+  //   )
+  // }
 
   handleAllProductList() {
     //check if 'id' is available or not 
@@ -73,9 +69,14 @@ export class ProdductListComponent implements OnInit {
      , thePageSize : ${this.thePageSize} , previousCategoryId : ${this.previousCategoryId}`);
 
     this.previousCategoryId = this.currentCategoryId
-    
-    this.productService.getProductListPagination(this.thePageNumber-1,
+
+    const hasKeyword: boolean = this.route.snapshot.paramMap.has('name');
+    if (hasKeyword) {
+      this.keyword = this.route.snapshot.paramMap.get('name');
+    }
+    this.productService.getProductsWithAllFilters(this.thePageNumber - 1,
       this.thePageSize,
+      this.keyword,
       this.currentCategoryId)
       .subscribe(
         data => {
@@ -93,11 +94,18 @@ export class ProdductListComponent implements OnInit {
     const hasKeyword: boolean = this.route.snapshot.paramMap.has('name');
     if (hasKeyword) {
       const keyword: string | null = this.route.snapshot.paramMap.get('name');
-      this.productService.searchProducts(keyword).subscribe(
-        data => {
-          this.products = data;
-        }
-      )
+      this.productService.searchProducts(this.thePageNumber - 1,
+        this.thePageSize,
+        keyword)
+        .subscribe(
+          data => {
+            this.products = data._embedded.products;
+            this.thePageNumber = data.page.number + 1;
+            this.thePageSize = data.page.size;
+            this.theTotalElements = data.page.totalElements;
+
+          }
+        )
 
     }
   }
