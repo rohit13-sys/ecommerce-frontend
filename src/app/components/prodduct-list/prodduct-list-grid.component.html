@@ -77,12 +77,24 @@
             <div class="footer-pagination">
 
                 <div class="row">
-                    <div class="col-md-6" style="padding-left: 30%">
+
+                    <div class="col-md-2 mt-2">
+                        <span class="mr-2">Page Size</span>
+                        <select #myPageselect (change)="updatePageSize(myPageselect.value)">
+                            <option selected="true">5</option>
+                            <option>10</option>
+                            <option>20</option>
+                            <option>50</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mt-2" style="padding-left: 30%;">
                         <ngb-pagination [(page)]="thePageNumber" [pageSize]="thePageSize"
-                            [collectionSize]="theTotalElements" (pageChange)="productsList()">
+                            [collectionSize]="theTotalElements" (pageChange)="productsList()" [maxSize]="5" [boundaryLinks]="true">
                         </ngb-pagination>
                     </div>
 
+                  
                 </div>
             </div>
             <!-- End footer -->

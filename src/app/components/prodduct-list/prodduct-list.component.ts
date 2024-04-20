@@ -10,13 +10,14 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProdductListComponent implements OnInit {
 
+
   products: Product[] = [];
   currentCategoryId: string | null = '';
   previousCategoryId: string | null = '';
   searchModule: boolean = false;
 
   thePageNumber: number = 1;
-  thePageSize: number = 10;
+  thePageSize: number = 5;
   theTotalElements: number = 0;
 
   randomNumber: number = Math.floor(Math.random() * 10) + 1;
@@ -106,11 +107,16 @@ export class ProdductListComponent implements OnInit {
 
           }
         )
-
     }
   }
 
   random() {
     return Math.random()
+  }
+
+  updatePageSize(pageSize: string) {
+    this.thePageSize = +pageSize;  
+    this.thePageNumber = 1;
+    this.productsList();
   }
 }
