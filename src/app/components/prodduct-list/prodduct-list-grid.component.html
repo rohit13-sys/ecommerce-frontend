@@ -36,7 +36,7 @@
                             </a>
                             <ul class="social">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                <li><a (click)="addToCart(product)"><i class="fa fa-shopping-cart"></i></a></li>
                                 <li><a routerLink="/products/{{product.id}}"><i class="fas fa-info-circle"></i></a></li>
                             </ul>
                             <div *ngIf="random()<.2">

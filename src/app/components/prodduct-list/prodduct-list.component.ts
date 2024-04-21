@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CartItem } from 'src/app/common/cart-item';
 import { Product } from 'src/app/common/product';
+import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -9,7 +11,6 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./prodduct-list.component.css']
 })
 export class ProdductListComponent implements OnInit {
-
 
   products: Product[] = [];
   currentCategoryId: string | null = '';
@@ -23,7 +24,7 @@ export class ProdductListComponent implements OnInit {
   randomNumber: number = Math.floor(Math.random() * 10) + 1;
   keyword: string | null = '';
 
-  constructor(private productService: ProductService, private route: ActivatedRoute) { }
+  constructor(private productService: ProductService, private route: ActivatedRoute,private cartService:CartService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -119,4 +120,10 @@ export class ProdductListComponent implements OnInit {
     this.thePageNumber = 1;
     this.productsList();
   }
+
+  addToCart( product: Product) {
+      console.log(`Adding to cart : ${product.name} , ${product.unitPrice}`);
+      const theCartItem = new CartItem(product);
+      this.cartService.addToCart(theCartItem);
+    }
 }
