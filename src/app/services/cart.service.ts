@@ -48,9 +48,9 @@ export class CartService {
     let totalPriceValue: number = 0;
     let totalQuantityValue: number = 0;
 
-    for(let currentCartItem of this.cartItems){
-      totalPriceValue +=currentCartItem.quantity * currentCartItem.unitPrice;
-      totalQuantityValue +=currentCartItem.quantity
+    for (let currentCartItem of this.cartItems) {
+      totalPriceValue += currentCartItem.quantity * currentCartItem.unitPrice;
+      totalQuantityValue += currentCartItem.quantity
     }
 
     //publish the values
@@ -58,19 +58,36 @@ export class CartService {
     this.totalQuanitty.next(totalQuantityValue);
 
     //log cart value
-    this.logCartData(totalPriceValue,totalQuantityValue);
+    this.logCartData(totalPriceValue, totalQuantityValue);
   }
 
 
   logCartData(totalPriceValue: number, totalQuantityValue: number) {
     console.log('Contents of cart');
-    for(let tempProduct of this.cartItems){
-      const subTotalPrice = tempProduct.quantity*tempProduct.unitPrice;
+    for (let tempProduct of this.cartItems) {
+      const subTotalPrice = tempProduct.quantity * tempProduct.unitPrice;
       console.log(`name : ${tempProduct.name},quantity : ${tempProduct.quantity},
        unitPrice : ${tempProduct.unitPrice} , subTotalPrice : ${subTotalPrice}`);
     }
 
     console.log(`totalPrice : ${totalPriceValue.toFixed(2)} , totalQuantity : ${totalQuantityValue}`);
     console.log(`-------------------`);
+  }
+
+  decrementQuantity(cartItem: CartItem) {
+    cartItem.quantity--;
+
+    if (cartItem.quantity === 0) {
+      this.remove(cartItem);
+    } else {
+      this.computeCartTotals();
+    }
+  }
+  
+  remove(cartItem: CartItem) {
+    const itemIndex = this.cartItems.findIndex(tempItem => tempItem.id == cartItem.id);
+    if (itemIndex > -1) {
+      this.cartItems.splice(itemIndex, 1);
+    }
   }
 }

@@ -9,27 +9,40 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class CartDetailsComponent implements OnInit {
 
-  cartItems:CartItem[] = []
-  totalPrice:number=0;
-  totalQuantity:number=0;
-  constructor(private cartService:CartService) { }
+
+
+  cartItems: CartItem[] = []
+  totalPrice: number = 0;
+  totalQuantity: number = 0;
+  constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
-  
+    this.listCartDetails();
   }
 
-  listCartDetails(){
+  listCartDetails() {
     //ghet a handle to cart items
     this.cartItems = this.cartService.cartItems;
 
     //subscribe to cart total price
-    this.cartService.totalPrice.subscribe(data=>this.totalPrice=data);
+    this.cartService.totalPrice.subscribe(data => this.totalPrice = data);
 
     //sunscribe to cart total quantity
-    this.cartService.totalQuanitty.subscribe(data=>this.totalQuantity=data);
+    this.cartService.totalQuanitty.subscribe(data => this.totalQuantity = data);
 
     //compiute cart total price and quantity
     this.cartService.computeCartTotals();
   }
 
+  incrementQuantity(cartItem: CartItem) {
+    this.cartService.addToCart(cartItem);
+  }
+
+  decrementQuantity(cartItem: CartItem) {
+    this.cartService.decrementQuantity(cartItem);
+    }
+
+    remove(cartItem: CartItem) {
+      this.cartService.remove(cartItem);
+      }
 }
