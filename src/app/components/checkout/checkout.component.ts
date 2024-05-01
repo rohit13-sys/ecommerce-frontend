@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup} from '@angular/forms';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -9,8 +10,10 @@ import { FormBuilder, FormGroup} from '@angular/forms';
 export class CheckoutComponent implements OnInit {
 
 
+  totalPrice:number = 0;
+  totalQuantity:number = 0;
   checkoutformGroup!: FormGroup;
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,private cartService:CartService) { }
 
   ngOnInit(): void {
     this.checkoutformGroup=this.formBuilder.group({
@@ -42,6 +45,10 @@ export class CheckoutComponent implements OnInit {
         expirationYear: ['']
       })
     });
+
+    this.computeCartDetails();
+    console.log("Total Price : "+this.totalPrice+", Total Quanitty : "+this.totalQuantity);
+    
   }
 
   onSubmit(){
@@ -59,7 +66,19 @@ export class CheckoutComponent implements OnInit {
       this.checkoutformGroup.controls['billingAddress'].setValue(this.checkoutformGroup.controls['shippingAddress'].value);
       console.log('billing Address :: '+this.checkoutformGroup.controls['billingAddress'].value);
     }else{
-      this.checkoutformGroup.controls['billingAddress'].reset;
+      this.checkoutformGroup.controls['billingAddress'].reset('');
+      console.log('billing Address :: '+this.checkoutformGroup.controls['billingAddress'].value);
     }
+    }
+
+    computeCartDetails(){
+        //subscribe to cart total price
+    this.cartService.totalPrice.subscribe(data => this.totalPrice = data);
+
+    //sunscribe to cart total quantity
+    this.cartService.totalQuanitty.subscribe(data => this.totalQuantity = data);
+
+    //compiute cart total price and quantity
+    this.cartService.computeCartTotals();
     }
 }

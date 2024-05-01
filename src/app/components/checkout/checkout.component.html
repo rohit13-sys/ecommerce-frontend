@@ -61,7 +61,7 @@
                             <div class="input-space">
                                 <select formControlName="state">
                                     <option> To Do </option>
-                                   </select>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -69,9 +69,9 @@
                         </div>
                         <div class="col-md-9">
                             <div class="input-space">
-                               <select formControlName="country">
-                                <option> To Do </option>
-                               </select>
+                                <select formControlName="country">
+                                    <option> To Do </option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -120,7 +120,7 @@
                             <div class="input-space">
                                 <select formControlName="state">
                                     <option> To Do </option>
-                                   </select>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -130,7 +130,7 @@
                             <div class="input-space">
                                 <select formControlName="country">
                                     <option> To Do </option>
-                                   </select>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -154,7 +154,9 @@
                         </div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input type="text" formControlName="cardType">
+                                <select formControlName="cardType">
+                                    <option> To Do </option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -186,7 +188,9 @@
                         </div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input type="text" formControlName="expirationMonth">
+                                <select formControlName="expirationMonth">
+                                    <option> To Do </option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -194,11 +198,21 @@
                         </div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input type="text" formControlName="expirationYear">
+                                <select formControlName="expirationYear">
+                                    <option> To Do </option>
+                                </select>
                             </div>
                         </div>
 
                     </div>
+                </div>
+
+                <!-- Order details -->
+                <div class="form-area">
+                    <h3>Review Your Order</h3>
+                    <p>Total Quanitity : {{totalQuantity}}</p>
+                    <p>Shipping : FREE</p>
+                    <p>Total Price : {{totalPrice | currency: 'USD'}}</p>
                 </div>
 
                 <!-- Submit button -->
